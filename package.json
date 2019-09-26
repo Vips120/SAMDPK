@@ -1,0 +1,23 @@
+{
+  "name": "samdpk",
+  "version": "1.0.0",
+  "description": "Express and mongodb WEB REST API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vips120/SAMDPK.git"
+  },
+  "author": "VIpul",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Vips120/SAMDPK/issues"
+  },
+  "homepage": "https://github.com/Vips120/SAMDPK#readme",
+  "dependencies": {
+    "@hapi/joi": "^16.1.4",
+    "express": "^4.17.1"
+  }
+}
