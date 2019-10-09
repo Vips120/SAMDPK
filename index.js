@@ -9,6 +9,9 @@ let port = process.env.PORT || 4500;
 let user = require('./routes/user');
 let courses = require('./routes/courses');
 let logger = require('./middleware/log');
+let genre = require('./routes/genre');
+let movie = require('./routes/movies');
+let UserRegister = require('./routes/user.register');
 app.use(logger);
 app.use(morgan('tiny'));
 console.log(`production: ${process.env.NODE_ENV}`);
@@ -29,3 +32,6 @@ mongoose.connect('mongodb://localhost/SAMPDPK', {useNewUrlParser:true,useUnified
 app.listen(port, () => console.log(`this app is working on port number ${port}`));
 app.use('/api/users/', user);
 app.use('/api/courses/', courses);
+app.use('/api/movie/', genre);
+app.use('/api/movie/', movie);
+app.use('/api/customer/', UserRegister);
