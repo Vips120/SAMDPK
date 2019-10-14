@@ -1,6 +1,7 @@
 let mongoose = require('mongoose');
 let jwt = require('jsonwebtoken');
 let Joi = require('@hapi/joi');
+let config = require('config');
 let UserRegisterSchema = new mongoose.Schema({
     firstname:{type:String,required:true,minlength:5, maxlength:250},
     lastname:{type:String,required:true,minlength:5, maxlength:250},
@@ -11,7 +12,7 @@ let UserRegisterSchema = new mongoose.Schema({
     }
 });
 UserRegisterSchema.methods.Generatetoken = function(){
-    let token = jwt.sign({_id: this._id},'SAMDPKKey');
+    let token = jwt.sign({_id: this._id},config.get('Pkapps'));
     return token;
 }
 

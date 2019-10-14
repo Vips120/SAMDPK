@@ -1,3 +1,4 @@
 {
-    "password":"app_samdpk"
+    "password":"app_samdpk",
+    "Pkapps": "app_samdpksecretkey"
 }

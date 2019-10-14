@@ -19,10 +19,16 @@ console.log(`production: ${process.env.NODE_ENV}`);
 console.log(`development: ${app.get('env')}`);
 console.log(`development: ${config.get('info')}`);
 console.log(`production: ${config.get('info')}`);
+console.log(`production: ${config.get('Pkapps')}`);
 if(process.env.NODE_ENV === 'production'){
     console.log(`production: ${config.get('user')}`);
     console.log(`password: ${config.get('password')}`);
 };
+
+if(!config.get("Pkapps")) {
+    console.log('FATAL ERROR: SET ENVIROMENT VAIRABLES');
+    process.exit(1);
+}
 
 
 

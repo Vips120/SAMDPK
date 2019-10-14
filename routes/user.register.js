@@ -1,8 +1,14 @@
 let express = require('express');
 let router = express.Router();
-let U = require('../db/user.register.schema');
+let U = require('../db/user');
 let bcrypt = require('bcryptjs');
 let jwt = require('jsonwebtoken');
+let auth = require('../middleware/user.auth');
+router.get('/me', auth,async(req,res) => {
+    let data = await U.User.findById(req.user._id).select(["firstname", "lastname", "Address"]);
+    res.send(data);
+})
+
 router.post('/userRegister', async(req,res) => {
     try {
         let {error} = U.ValidationError(req.body);
@@ -18,8 +24,8 @@ router.post('/userRegister', async(req,res) => {
         let salt = await bcrypt.genSalt(10);
          data.UserLogin.password = await bcrypt.hash(data.UserLogin.password, salt);
         let result = await data.save();
-        let token = user.Generatetoken();
-        res.send({message:'Welcome user we got your data! now lets go back to login page', data: result, token: token});
+        let token = result.Generatetoken();
+        res.header('x-auth-token', token).send({message:'Welcome user we got your data! now lets go back to login page', data: result});
     }
     catch(ex) {
         res.send(ex.message);
