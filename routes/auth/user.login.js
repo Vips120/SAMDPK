@@ -4,7 +4,7 @@ let Joi = require('@hapi/joi');
 let U = require('../../db/user');
 let bcrypt = require('bcryptjs');
 let auth = require('../../middleware/user.auth');
-router.post('/auth',auth,async(req,res) => {
+router.post('/auth',async(req,res) => {
   let user = await U.User.findOne({"UserLogin.emailid": req.body.UserLogin.emailid});
   if(!user){return res.status(403).send({message:'Invalid emailid please try again'})}
   let {error} = ValidationError(req.body);
@@ -12,7 +12,7 @@ router.post('/auth',auth,async(req,res) => {
    let password = await bcrypt.compare(req.body.UserLogin.password, user.UserLogin.password);
     if(!password) {return res.status(403).send({message: 'Invalid password!'})}
     let token = user.Generatetoken();
-    res.header('x-auth-token', token).send({message:'Login Successful'});
+    res.header('x-auth-token', token).send({message:'Login Successful', t: token});
 });
 
 function ValidationError(error){

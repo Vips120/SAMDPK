@@ -4,6 +4,7 @@ let U = require('../db/user');
 let bcrypt = require('bcryptjs');
 let jwt = require('jsonwebtoken');
 let auth = require('../middleware/user.auth');
+let admin = require('../middleware/admin');
 router.get('/me', auth,async(req,res) => {
     let data = await U.User.findById(req.user._id).select(["firstname", "lastname", "Address"]);
     res.send(data);
@@ -32,5 +33,33 @@ router.post('/userRegister', async(req,res) => {
     }
 
 });
+
+//delete the user
+
+router.delete('/removecustomer/:id', [auth,admin], async(req,res) => {
+    let data = await U.User.findByIdAndRemove(req.params.id);
+    if(!data) {res.status(403).send({message:'Invalid user id'})}
+    res.send({message:'User Deleted! See you next time :`('})
+});
+
+//pagination
+
+router.post('/:page', async(req,res) => {
+    let perPage = 5;
+    let currentPage = req.params.page || 1;
+    let data = await U.User
+                       .find({})
+                       .skip((perPage * currentPage) - perPage)
+                       .limit(perPage);
+      let dataCount = await U.User.find().count();
+      let pageSize = Math.ceil(dataCount/perPage);
+      res.send({
+          perPage: perPage,
+          currentPage: currentPage,
+          dataSize: data,
+          pageSize: pageSize
+      });            
+})
+
 //IEP -> Information Expert Principle
 module.exports = router;
