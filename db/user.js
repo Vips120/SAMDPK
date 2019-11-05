@@ -10,7 +10,9 @@ let UserRegisterSchema = new mongoose.Schema({
         emailid:{type:String, required:true, unique:true},
         password:{type:String,required:true}
     },
-    isAdmin:{type:Boolean, required:true}
+    isAdmin:{type:Boolean},
+    resetPasswordExpires: {type:Date},
+    resetPasswordToken : {type:String}
 });
 UserRegisterSchema.methods.Generatetoken = function(){
     let token = jwt.sign({_id: this._id, isAdmin:this.isAdmin},config.get('Pkapps'));
